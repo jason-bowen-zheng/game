@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+
+from random import randint
+from sys import argv
+
+def main():
+    try:
+        c = randint(1, int(argv[1]))
+    except:
+        print('USAGE: guess [i]')
+        print('  i --- The largest number,')
+        print('        must be int.')
+    else:
+        while True:
+            try:
+                g = input('Number: ')
+                if g == 'q':
+                    print('Bye!')
+                    break
+                else:
+                    g = int(g)
+            except:
+                print('Must be int:', g)
+            else:
+                if g > c:
+                    print('Great than!')
+                elif g < c:
+                    print('Less than!')
+                else:
+                    print('It\'s right!')
+                    break
+
+if __name__ == '__main__':
+    main()
