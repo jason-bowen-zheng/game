@@ -38,7 +38,6 @@ int main(){
 	}
 	int y = 0;
 	int x = 0;
-	curs_set(0);
 	do{
 		draw();
 		attron(COLOR_PAIR(WORD));
@@ -46,6 +45,7 @@ int main(){
 		attroff(COLOR_PAIR(WORD));
 		attron(COLOR_PAIR(PERSON));
 		mvaddch(y, x, PERSON);
+		move(y, x);
 		attroff(COLOR_PAIR(PERSON));
 		refresh();
 		char c = getch();
