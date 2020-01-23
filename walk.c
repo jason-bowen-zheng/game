@@ -1,8 +1,11 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define GROUND ' '
 #define PERSON '*'
+#define WORD 1
+#define TITLE "Walk"
 
 void draw(void){
 	attron(COLOR_PAIR(GROUND));
@@ -13,6 +16,10 @@ void draw(void){
 	refresh();
 }
 
+void addmidstr(char str[]){
+	mvaddstr((LINES / 2), (COLS - strlen(str)) / 2, str);
+}
+
 int main(){
 	initscr();
 	keypad(stdscr, TRUE);
@@ -20,18 +27,23 @@ int main(){
 	noecho();
 	if (has_colors() == FALSE){
 		endwin();
-		printf("Your terminal dose not support color, exit!");
+		printf("Your terminal dose not support color!");
 		exit(1);
 	} else {
 		clear();
 		start_color();
 		init_pair(GROUND, COLOR_CYAN, COLOR_CYAN);
 		init_pair(PERSON, COLOR_RED, COLOR_CYAN);
+		init_pair(WORD, COLOR_WHITE, COLOR_CYAN);
 	}
 	int y = 0;
 	int x = 0;
+	curs_set(0);
 	do{
 		draw();
+		attron(COLOR_PAIR(WORD));
+		addmidstr(TITLE);
+		attroff(COLOR_PAIR(WORD));
 		attron(COLOR_PAIR(PERSON));
 		mvaddch(y, x, PERSON);
 		attroff(COLOR_PAIR(PERSON));
