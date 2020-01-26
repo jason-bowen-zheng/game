@@ -6,6 +6,10 @@
 #define WORD 1
 #define TITLE "Walk"
 
+void addmidstr(char str[]){
+    mvaddstr((LINES / 2), (COLS - strlen(str)) / 2, str);
+}
+
 void draw(void){
 	attron(COLOR_PAIR(GROUND));
 	for (int y = 0; y < LINES; y++){
@@ -15,8 +19,14 @@ void draw(void){
 	refresh();
 }
 
-void addmidstr(char str[]){
-	mvaddstr((LINES / 2), (COLS - strlen(str)) / 2, str);
+void help(void){
+	printf("Walk (%s, %s)\n", __DATE__, __TIME__);
+	printf("Free to walk in the screen.\n");
+	printf("Use WASD to control '*'\n");
+	printf("Q to quit, H for help.\n");
+	printf("Press any key to continue... ");
+	getchar();
+	return;
 }
 
 int main(){
@@ -73,6 +83,14 @@ int main(){
 					x++;
 				}
 				break;
+			case 'h':
+			case 'H':
+				def_prog_mode();
+				endwin();
+				help();
+				reset_prog_mode();
+				refresh();
+				break;
 			case 'q':
 			case 'Q':
 				endwin();
@@ -81,3 +99,4 @@ int main(){
 		}
 	}while(1);
 }
+
