@@ -4,7 +4,7 @@
 #define GROUND ' '
 #define PERSON '*'
 #define WORD 1
-#define TITLE "Walk"
+#define TITLE "WALK"
 
 void addmidstr(char str[]){
     mvaddstr((LINES / 2), (COLS - strlen(str)) / 2, str);
@@ -21,10 +21,10 @@ void draw(void){
 
 void help(void){
 	printf("Walk (%s, %s)\n", __DATE__, __TIME__);
-	printf("Free to walk in the screen.\n");
-	printf("Use WASD to control '*'\n");
-	printf("Q to quit, H for help.\n");
-	printf("Press any key to continue... ");
+	puts("Free to walk in the screen");
+	puts("Use WASD to control '*'");
+	puts("Q to quit, H for help.");
+	printf("Press ENTER to continue... ");
 	getchar();
 	return;
 }
@@ -59,26 +59,42 @@ int main(){
 		refresh();
 		char c = getch();
 		switch(c){
-			case 'w':
 			case 'W':
+				if (y > 5){
+					y -= 5;
+					break;
+				}
+			case 'w':
 				if (y > 0){
 					y--;
 				}
 				break;
-			case 's':
 			case 'S':
+				if (y < LINES - 5){
+					y += 5;
+					break;
+				}
+			case 's':
 				if (y < LINES - 1){
 					y++;
 				}
 				break;
-			case 'a':
 			case 'A':
+				if (x > 5){
+					x -= 5;
+					break;
+				}
+			case 'a':
 				if (x > 0){
 					x--;
 				}
 				break;
-			case 'd':
 			case 'D':
+				if (x < COLS - 5){
+					x += 5;
+					break;
+				}
+			case 'd':
 				if (x < COLS - 1){
 					x++;
 				}
