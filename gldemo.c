@@ -11,19 +11,19 @@ void init(void) {
 
 void on_draw(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glColor3f(1.0, 1.0, 1.0);
-	glutWireTeapot(2.0);
+	glBegin(GL_TRIANGLES);
+	glColor3f(1.0, 0.0, 0.0);
+	glVertex3f(-0.5, -0.5, 0.0);
+	glColor3f(0.0, 1.0, 0.0);
+	glVertex3f(0.5, 0.0, 0.0);
+	glColor3f(0.0, 0.0, 0.5);
+	glVertex3f(0.0, 0.5, 0.0);
+	glEnd();
 	glutSwapBuffers();
 }
 
 void on_reshape(int w, int h) {
 	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0, (GLfloat)w / (GLfloat)h, 1.0, 20.0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 int main(int argc, char *argv[]) {
