@@ -2,8 +2,10 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include <math.h>
 
 int shape = 0;
+const GLfloat PI = 3.1415926;
 
 void init(void) {
 	glEnable(GL_BLEND);
@@ -14,6 +16,7 @@ void init(void) {
 void init_menu(void) {
 	glutAddMenuEntry("Triangles", 0);
 	glutAddMenuEntry("Quads", 1);
+	glutAddMenuEntry("Circles", 2);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -28,7 +31,7 @@ void on_draw(void) {
 		glColor3f(0.0, 0.0, 0.5);
 		glVertex3f(0.0, 0.5, 0.0);
 		glEnd();
-	} else {
+	} else if (shape == 1) {
 		glBegin(GL_QUADS);
 		glColor3f(1.0, 0.0, 0.0);
 		glVertex3f(0.5, 0.5, 0.0);
@@ -39,16 +42,23 @@ void on_draw(void) {
 		glColor3f(1.0, 0.5, 0.0);
 		glVertex3f(0.5, -0.5, 0.0);
 		glEnd();
+	} else if (shape == 2) {
+		GLfloat r = 0.5;
+		long n = 1024;
+		for (int i = 0; i <= n; ++i) {
+			glBegin(GL_LINES);
+			glColor3f(1.0, 0.5, 0.0);
+			glVertex2f(r * cos(2 * PI / n * i), r * sin(2 * PI / n * i));
+			glColor3f(1.0, 0.0, 1.0);
+			glVertex2f(0, 0);
+			glEnd();
+		}
 	}
 	glutSwapBuffers();
 }
 
 void on_menu(int value) {
-	if (value == 0) {
-		shape = 0;
-	} else {
-		shape = 1;
-	}
+	shape = value;
 	on_draw();
 }
 

@@ -3,6 +3,11 @@
 
 # 编译
 ```shell
-gcc walk.c -o walk -lncurses
-gcc gldemo.c -o gldemo -lGLEW -lGL -lGLU -lglut -lX11
+# 编译全部
+make all
+# 编译单个源文件
+make walk
+make gldemo
+# 清楚
+make clean
 ```
