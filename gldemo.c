@@ -3,6 +3,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <math.h>
+#include <stdio.h>
 
 int shape = 0;
 const GLfloat PI = 3.1415926;
@@ -59,14 +60,17 @@ void on_draw(void) {
 
 void on_menu(int value) {
 	shape = value;
+	printf("[info] set shape to %d\n", shape);
 	on_draw();
 }
 
 void on_reshape(int w, int h) {
+	printf("[info] reshape to %dx%d\n", w, h);
 	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 }
 
 int main(int argc, char *argv[]) {
+	printf("%s(%s, %s)\n", argv[0], __DATE__, __TIME__);
 	glutInit(&argc, (char **)argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowPosition(-1, -1);
