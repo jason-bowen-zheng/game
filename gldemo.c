@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 int shape = 0;
+const GLfloat r = 0.5;
 const GLfloat PI = 3.1415926;
 
 void init(void) {
@@ -17,7 +18,8 @@ void init(void) {
 void init_menu(void) {
 	glutAddMenuEntry("Triangles", 0);
 	glutAddMenuEntry("Quads", 1);
-	glutAddMenuEntry("Circles", 2);
+	glutAddMenuEntry("Circles1", 2);
+	glutAddMenuEntry("Circles2", 3);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -44,7 +46,6 @@ void on_draw(void) {
 		glVertex3f(0.5, -0.5, 0.0);
 		glEnd();
 	} else if (shape == 2) {
-		GLfloat r = 0.5;
 		long n = 1024;
 		for (int i = 0; i <= n; ++i) {
 			glBegin(GL_LINES);
@@ -54,6 +55,14 @@ void on_draw(void) {
 			glVertex2f(0, 0);
 			glEnd();
 		}
+	} else if (shape == 3) {
+		int n = 64;
+		glBegin(GL_POLYGON);
+		glColor3f(1.0, 0.0, 0.0);
+		for (int i = 0; i <= n; ++i) {
+			glVertex2f(r * cos(2 * PI / n * i), r * sin(2 * PI / n * i));
+		}
+		glEnd();
 	}
 	glutSwapBuffers();
 }
@@ -66,7 +75,13 @@ void on_menu(int value) {
 
 void on_reshape(int w, int h) {
 	printf("[info] reshape to %dx%d\n", w, h);
-	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+	if (w > h) {
+		glViewport(0.5 *(w - h), 0, (GLsizei)h, (GLsizei)h);
+	} else if (h > w) {
+		glViewport(0, 0.5 * (h -w), (GLsizei)w, (GLsizei)w);
+	} else {
+		glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+	}
 }
 
 int main(int argc, char *argv[]) {
