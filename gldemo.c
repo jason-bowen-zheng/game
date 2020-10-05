@@ -6,8 +6,11 @@
 #include <stdio.h>
 
 int shape = 0;
+int c = 1;
 const GLfloat r = 0.5;
 const GLfloat PI = 3.1415926;
+
+void draw_sin(int);
 
 void init(void) {
 	glEnable(GL_BLEND);
@@ -20,6 +23,7 @@ void init_menu(void) {
 	glutAddMenuEntry("Quads", 1);
 	glutAddMenuEntry("Circles1", 2);
 	glutAddMenuEntry("Circles2", 3);
+	glutAddMenuEntry("sin(i)", 4);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -63,18 +67,36 @@ void on_draw(void) {
 			glVertex2f(r * cos(2 * PI / n * i), r * sin(2 * PI / n * i));
 		}
 		glEnd();
+	} else if (shape == 4) {
+		glutTimerFunc(500, draw_sin, 0);
 	}
 	glutSwapBuffers();
 }
 
+void draw_sin(int n) {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glBegin(GL_LINES);
+	glColor3f(0.0, 0.8, 0.0);
+	c++;
+	if (c == 16) {
+		c = 1;
+	} else if (c == 1) {
+		c = 16;
+	}
+	for (float i = -c; i <=c; i += 0.001) {
+		glVertex2f(i / c, sin(i) / c);
+	}
+	glEnd();
+	glutSwapBuffers();
+	glutTimerFunc(500, draw_sin, 0);
+}
+
 void on_menu(int value) {
 	shape = value;
-	printf("[info] set shape to %d\n", shape);
 	on_draw();
 }
 
 void on_reshape(int w, int h) {
-	printf("[info] reshape to %dx%d\n", w, h);
 	if (w > h) {
 		glViewport(0.5 *(w - h), 0, (GLsizei)h, (GLsizei)h);
 	} else if (h > w) {
