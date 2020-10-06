@@ -24,6 +24,7 @@ void init_menu(void) {
 	glutAddMenuEntry("Circles1", 2);
 	glutAddMenuEntry("Circles2", 3);
 	glutAddMenuEntry("sin(i)", 4);
+	glutAddMenuEntry("sin", 5);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
@@ -67,7 +68,14 @@ void on_draw(void) {
 			glVertex2f(r * cos(2 * PI / n * i), r * sin(2 * PI / n * i));
 		}
 		glEnd();
-	} else if (shape == 4) {
+	}else if (shape == 4) {
+		glBegin(GL_LINES);
+		glColor3f(0.0, 0.5, 0.0);
+		for (float i = -10; i <=10; i += 0.001) {
+			glVertex2f(i / 10, sin(i) / 10);
+		}
+		glEnd();
+	} else if (shape == 5) {
 		glutTimerFunc(500, draw_sin, 0);
 	}
 	glutSwapBuffers();
@@ -76,7 +84,7 @@ void on_draw(void) {
 void draw_sin(int n) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBegin(GL_LINES);
-	glColor3f(0.0, 0.8, 0.0);
+	glColor3f(0.0, 0.5, 0.0);
 	c++;
 	if (c == 16) {
 		c = 1;
@@ -88,7 +96,11 @@ void draw_sin(int n) {
 	}
 	glEnd();
 	glutSwapBuffers();
-	glutTimerFunc(500, draw_sin, 0);
+	if (shape == 5) {
+		glutTimerFunc(500, draw_sin, 0);
+	} else {
+		on_draw();
+	}
 }
 
 void on_menu(int value) {
